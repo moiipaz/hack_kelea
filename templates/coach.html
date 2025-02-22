@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-danger"><i class="fas fa-bullhorn"></i> Coach de Bienestar y Objetivos</h2>
+    <p>📢 Dime cómo te sientes y te daré objetivos personalizados.</p>
+
+    <input type="text" id="emocionInput" class="form-control" placeholder="Ejemplo: ansioso, feliz, triste...">
+    <button class="btn btn-success mt-3 w-100" onclick="obtenerObjetivos()">Obtener Objetivos</button>
+
+    <h3 class="mt-4">🎯 Objetivos para ti</h3>
+    <ul id="listaObjetivos" class="list-group"></ul>
+</div>
+
+<script>
+    function obtenerObjetivos() {
+        let emocion = document.getElementById("emocionInput").value.trim();
+        fetch("/coach", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ emocion })
+        })
+        .then(response => response.json())
+        .then(data => {
+            let lista = document.getElementById("listaObjetivos");
+            lista.innerHTML = "";
+            if (data.error) {
+                alert("⚠️ " + data.error);
+            } else {
+                data.objetivos.forEach(obj => {
+                    let li = document.createElement("li");
+                    li.classList.add("list-group-item");
+                    li.textContent = obj;
+                    lista.appendChild(li);
+                });
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+{% endblock %}

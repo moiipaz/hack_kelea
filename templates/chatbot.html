@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-danger"><i class="fas fa-robot"></i> Chatbot de Apoyo Emocional</h2>
+    <p>💬 Escribe un mensaje y el chatbot responderá según tu estado emocional.</p>
+
+    <input type="text" id="mensajeInput" class="form-control" placeholder="Escribe aquí...">
+    <button class="btn btn-primary mt-3 w-100" onclick="enviarMensaje()">Enviar</button>
+
+    <h3 class="mt-4">🗨️ Conversación</h3>
+    <ul id="chatHistorial" class="list-group"></ul>
+
+    <h3 class="mt-4">📊 Tendencias Emocionales</h3>
+    <p id="tendencias"></p>
+</div>
+
+<script>
+    function enviarMensaje() {
+        let mensaje = document.getElementById("mensajeInput").value;
+        fetch("/chatbot", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ texto: mensaje })
+        })
+        .then(response => response.json())
+        .then(data => {
+            let historial = document.getElementById("chatHistorial");
+            let li = document.createElement("li");
+            li.classList.add("list-group-item");
+            li.innerHTML = `<strong>👤 Tú:</strong> ${mensaje} <br>
+                            <strong>🤖 Chatbot:</strong> ${data.respuesta} <br>
+                            😃 Emoción detectada: <strong>${data.emocion}</strong>`;
+            historial.appendChild(li);
+            document.getElementById("mensajeInput").value = "";
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    function cargarTendencias() {
+        fetch("/chatbot/tendencias")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("tendencias").innerHTML = `<strong>${data.tendencias}</strong>`;
+        });
+    }
+
+    window.onload = cargarTendencias;
+</script>
+{% endblock %}

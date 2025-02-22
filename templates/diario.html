@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Diario Emocional{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-danger"><i class="fas fa-book"></i> Diario Emocional Inteligente</h2>
+    <p class="text-muted">📝 Escribe sobre tu día y recibe un análisis emocional basado en tus entradas.</p>
+
+    <textarea id="diarioInput" class="form-control custom-textarea" placeholder="Escribe aquí tu entrada del diario..."></textarea>
+    <button class="btn btn-primary mt-3 w-100" onclick="guardarDiario()">📌 Guardar Entrada</button>
+
+    <h3 class="mt-4">📊 Tendencia Emocional</h3>
+    <p id="tendencias" class="tendencia-texto"></p>
+</div>
+
+<script>
+    function guardarDiario() {
+        let texto = document.getElementById("diarioInput").value;
+        fetch("/diario", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ texto })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("⚠️ " + data.error);
+            } else {
+                alert("✅ Entrada guardada con emoción detectada: " + data.emocion);
+                cargarDiario();
+                cargarTendencias();
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    function cargarDiario() {
+        fetch("/diario")
+        .then(response => response.json())
+        .then(data => {
+            let historial = document.getElementById("diarioHistorial");
+            historial.innerHTML = "";
+            if (data.length === 0) {
+                historial.innerHTML = "<p class='text-muted'>No hay entradas en el diario aún.</p>";
+            } else {
+                data.forEach(entry => {
+                    let div = document.createElement("div");
+                    div.classList.add("diario-entry");
+                    div.innerHTML = `
+                        <div class="diario-header">
+                            <span class="diario-fecha">📅 ${entry.fecha}</span>
+                            <span class="diario-emocion">😃 ${entry.emocion}</span>
+                        </div>
+                        <p class="diario-texto">${entry.texto}</p>
+                        <p class="diario-consejo">💡 ${entry.consejo || "Sin consejo disponible"}</p>
+                    `;
+                    historial.appendChild(div);
+                });
+            }
+        });
+    }
+
+    function cargarTendencias() {
+        fetch("/diario/tendencias")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("tendencias").innerHTML = `<strong>${data.tendencia}</strong>`;
+        });
+    }
+
+    window.onload = function() {
+        cargarDiario();
+        cargarTendencias();
+    };
+</script>
+{% endblock %}

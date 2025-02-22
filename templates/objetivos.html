@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="text-danger"><i class="fas fa-bullhorn"></i> Coach de Bienestar y Objetivos</h2>
+    <p>🎯 Propone objetivos personalizados basados en el estado emocional detectado.</p>
+
+    <h3 class="mt-4">🎯 Obtén tus Objetivos</h3>
+    <label>📌 Ingresa tu tipo de personalidad:</label>
+    <input type="text" id="tipoPersonalidad" class="form-control mb-2" placeholder="Ejemplo: Introvertido, Extrovertido...">
+
+    <button class="btn btn-primary mt-3 w-100" onclick="obtenerObjetivos()">Sugerir Objetivos</button>
+
+    <h3 class="mt-4">📋 Objetivos Sugeridos</h3>
+    <ul id="listaObjetivos" class="list-group"></ul>
+</div>
+
+<script>
+    function obtenerObjetivos() {
+        let tipo = document.getElementById("tipoPersonalidad").value;
+
+        fetch("/objetivos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ tipo_personalidad: tipo })
+        })
+        .then(response => response.json())
+        .then(data => {
+            let lista = document.getElementById("listaObjetivos");
+            lista.innerHTML = "";
+            data.objetivos.forEach(objetivo => {
+                let li = document.createElement("li");
+                li.classList.add("list-group-item");
+                li.textContent = objetivo;
+                lista.appendChild(li);
+            });
+        })
+        .catch(error => console.error("Error:", error));
+    }
+</script>
+{% endblock %}

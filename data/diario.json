@@ -1,0 +1,72 @@
+[
+    {
+        "fecha": "2025-02-22 16:47:31",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 16:50:28",
+        "texto": "mal",
+        "emocion": "triste"
+    },
+    {
+        "fecha": "2025-02-22 16:56:47",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 16:58:21",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 17:50:37",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 17:51:41",
+        "texto": "feliz",
+        "emocion": "neutral"
+    },
+    {
+        "fecha": "2025-02-22 17:52:34",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 17:54:43",
+        "texto": "triste",
+        "emocion": "triste"
+    },
+    {
+        "fecha": "2025-02-22 18:40:09",
+        "texto": "bien",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 18:40:18",
+        "texto": "feliz",
+        "emocion": "neutral"
+    },
+    {
+        "fecha": "2025-02-22 18:40:25",
+        "texto": "trisye",
+        "emocion": "neutral"
+    },
+    {
+        "fecha": "2025-02-22 19:07:26",
+        "texto": "feliz",
+        "emocion": "neutral"
+    },
+    {
+        "fecha": "2025-02-22 19:07:36",
+        "texto": "contento",
+        "emocion": "feliz"
+    },
+    {
+        "fecha": "2025-02-22 19:07:52",
+        "texto": "mal",
+        "emocion": "triste"
+    }
+]
